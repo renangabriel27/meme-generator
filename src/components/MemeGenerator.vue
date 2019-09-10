@@ -18,14 +18,7 @@
         </p>
       </div>
 
-      <div id="meme-gallery" class="border">
-        <span v-for="(image, index) in gallery" :key="index">
-          <img :src="image.path"
-               :title="image.title"
-               class="image-gallery"
-               @click="updateImage(image)">
-        </span>
-      </div>
+      <meme-gallery :gallery="gallery" />
 
       <div>
         <div class="form-group">
@@ -47,8 +40,13 @@
 </template>
 
 <script>
+
+import MemeGallery from './MemeGallery';
+
 export default {
   name: 'MemeGenerator',
+
+  components: { MemeGallery },
 
   data() {
     return {
@@ -70,11 +68,18 @@ export default {
 
   mounted() {
     this.setImage();
+    this.onUpdateImage();
   },
 
   methods: {
     setImage() {
       this.updateImage(this.gallery[0]);
+    },
+
+    onUpdateImage() {
+      this.$root.$on('update-image', (image) => {
+        this.updateImage(image);
+      });
     },
 
     resetInputs() {
@@ -92,13 +97,6 @@ export default {
 
 <style scoped>
 
-#meme-gallery {
-  height: 90px;
-  overflow: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-}
-
 .main-content {
   width: 600px;
   height: 500px;
@@ -113,12 +111,6 @@ export default {
   padding: 5px;
   position: absolute;
   text-shadow: 3px 3px 3px #000;
-}
-
-.image-gallery {
-  width: 65px;
-  height: 100%;
-  cursor: pointer;
 }
 
 </style>
