@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <h1>{{ title }}</h1>
+  <div class="container p-3">
+    <h1 class="text-center">{{ title }}</h1>
 
-    <img :src="image.path"
-         :alt="image.title"
-         :title="image.title">
+    <div id="main-div" class="d-block m-auto text-center">
+      <img :src="image.path"
+           :alt="image.title"
+           :title="image.title">
+    </div>
   </div>
 </template>
 
@@ -23,3 +25,12 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+
+#main-div {
+  width: 600px;
+  height: 500px;
+}
+
+</style>
