@@ -54,8 +54,8 @@ export default {
     return {
       title: 'Meme Generator',
       image: {
-        path: 'images/nerd.png',
-        title: 'Nerd'
+        path: '',
+        title: '',
       },
       text: {
         top: '',
@@ -68,7 +68,15 @@ export default {
     };
   },
 
+  mounted() {
+    this.setImage();
+  },
+
   methods: {
+    setImage() {
+      this.updateImage(this.gallery[0]);
+    },
+
     resetInputs() {
       this.text.top = '';
       this.text.bottom = '';
