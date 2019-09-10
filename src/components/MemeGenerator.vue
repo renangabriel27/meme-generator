@@ -3,18 +3,29 @@
     <h1 class="text-center">{{ title }}</h1>
 
     <div class="d-block m-auto text-center position-relative main-content">
-      <p class="fixed-top text">
-        {{ text.top }}
-      </p>
+      <div class="my-3">
+        <p class="fixed-top text">
+          {{ text.top }}
+        </p>
 
-      <img :src="image.path"
-           :alt="image.title"
-           :title="image.title"
-           class="main-content">
+        <img :src="image.path"
+             :alt="image.title"
+             :title="image.title"
+             class="main-content">
 
-      <p class="fixed-bottom text">
-        {{ text.bottom }}
-      </p>
+        <p class="fixed-bottom text">
+          {{ text.bottom }}
+        </p>
+      </div>
+
+      <div id="meme-gallery" class="border">
+        <span v-for="(image, index) in gallery" :key="index">
+          <img :src="image.path"
+               :title="image.title"
+               class="image-gallery"
+               @click="updateImage(image)">
+        </span>
+      </div>
 
       <div>
         <div class="form-group">
@@ -50,6 +61,10 @@ export default {
         top: '',
         bottom: '',
       },
+      gallery: [
+        { title: 'Nerd', path: 'images/nerd.png' },
+        { title: 'Chapolin', path: 'images/chapolin.png' },
+      ],
     };
   },
 
@@ -57,12 +72,24 @@ export default {
     resetInputs() {
       this.text.top = '';
       this.text.bottom = '';
-    }
+    },
+
+    updateImage(image) {
+      this.image.path = image.path;
+      this.image.title = image.title;
+    },
   },
 }
 </script>
 
 <style scoped>
+
+#meme-gallery {
+  height: 90px;
+  overflow: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
 
 .main-content {
   width: 600px;
@@ -78,6 +105,12 @@ export default {
   padding: 5px;
   position: absolute;
   text-shadow: 3px 3px 3px #000;
+}
+
+.image-gallery {
+  width: 65px;
+  height: 100%;
+  cursor: pointer;
 }
 
 </style>
