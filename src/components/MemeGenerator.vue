@@ -1,53 +1,56 @@
 <template>
-  <div class="container p-3">
-    <h1 class="text-center">{{ title }}</h1>
+  <div class="row m-2">
+    <div class="col-md-6">
 
-    <div class="d-block m-auto text-center position-relative main-content">
-      <div class="my-3">
-        <p class="fixed-top text">
-          {{ text.top }}
-        </p>
+      <div class="d-block mx-auto text-center position-relative main-content">
+        <div class="my-3">
+          <p class="fixed-top text">
+            {{ text.top }}
+          </p>
 
-        <img :src="image.path"
-             :alt="image.title"
-             :title="image.title"
-             class="main-content">
+          <img :src="image.path"
+            :alt="image.title"
+            :title="image.title"
+            class="main-content">
 
-        <p class="fixed-bottom text">
-          {{ text.bottom }}
-        </p>
-      </div>
-
-      <div v-if="showGallery">
-        <meme-gallery :gallery="gallery" />
-
-        <button class="btn btn-primary my-3"
-                @click="updateShowGallery(false)">
-          Close Meme Templates
-        </button>
-      </div>
-      <div v-else>
-        <button class="btn btn-primary my-3"
-                @click="updateShowGallery(true)">
-          View Meme Templates
-        </button>
-      </div>
-
-      <div>
-        <div class="form-group">
-          <label>Top text</label>
-          <input type="text" class="form-control" v-model="text.top">
+          <p class="fixed-bottom text">
+            {{ text.bottom }}
+          </p>
         </div>
 
-        <div class="form-group">
-          <label>Bottom text</label>
-          <input type="text" class="form-control" v-model="text.bottom">
-        </div>
+        <div v-if="showGallery">
+          <meme-gallery :gallery="gallery" />
 
-        <button class="btn btn-default" @click="resetInputs()">
-          Reset
-        </button>
+            <button class="btn btn-primary my-3"
+                    @click="updateShowGallery(false)">
+              Close Meme Templates
+            </button>
+        </div>
+        <div v-else>
+          <button class="btn btn-primary my-3"
+                  @click="updateShowGallery(true)">
+            View Meme Templates
+          </button>
+        </div>
       </div>
+    </div>
+
+    <div class="col-md-5">
+      <h1 class="text-center">{{ title }}</h1>
+
+      <div class="form-group">
+        <label>Top text</label>
+        <input type="text" class="form-control" v-model="text.top">
+      </div>
+
+      <div class="form-group">
+        <label>Bottom text</label>
+        <input type="text" class="form-control" v-model="text.bottom">
+      </div>
+
+      <button class="btn btn-default" @click="resetInputs()">
+        Reset
+      </button>
     </div>
   </div>
 </template>
@@ -116,7 +119,7 @@ export default {
 <style scoped>
 
 .main-content {
-  width: 600px;
+  width: 500px;
   height: 500px;
   word-wrap: break-word;
 }
