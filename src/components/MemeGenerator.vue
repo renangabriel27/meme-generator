@@ -18,7 +18,20 @@
         </p>
       </div>
 
-      <meme-gallery :gallery="gallery" />
+      <div v-if="showGallery">
+        <meme-gallery :gallery="gallery" />
+
+        <button class="btn btn-primary my-3"
+                @click="updateShowGallery(false)">
+          Close Meme Templates
+        </button>
+      </div>
+      <div v-else>
+        <button class="btn btn-primary my-3"
+                @click="updateShowGallery(true)">
+          View Meme Templates
+        </button>
+      </div>
 
       <div>
         <div class="form-group">
@@ -63,6 +76,7 @@ export default {
         { title: 'Nerd', path: 'images/nerd.png' },
         { title: 'Chapolin', path: 'images/chapolin.png' },
       ],
+      showGallery: false,
     };
   },
 
@@ -90,6 +104,10 @@ export default {
     updateImage(image) {
       this.image.path = image.path;
       this.image.title = image.title;
+    },
+
+    updateShowGallery(value) {
+      this.showGallery = value;
     },
   },
 }
