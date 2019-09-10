@@ -1,6 +1,10 @@
 <template>
   <div>
-    {{ message }}
+    <h1>{{ title }}</h1>
+
+    <img :src="image.path"
+         :alt="image.title"
+         :title="image.title">
   </div>
 </template>
 
@@ -10,7 +14,11 @@ export default {
 
   data() {
     return {
-      message: 'Hello Vue!'
+      title: 'Meme Generator',
+      image: {
+        path: 'images/nerd.png',
+        title: 'Nerd'
+      },
     };
   },
 }
