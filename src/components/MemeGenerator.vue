@@ -1,35 +1,19 @@
 <template>
-  <div class="row m-2">
+  <div class="row m-0 p-2">
     <div class="col-md-6 text-center mb-4">
-      <div id="capture" class="d-block mx-auto position-relative main-content">
+      <div id="main-content" class="d-block mx-auto position-relative">
         <p class="fixed-top text" :style="textColor">
           {{ text.top }}
         </p>
 
-        <img :src="image.path"
+        <img :src="image.src"
              :alt="image.title"
              :title="image.title"
-             id="main-image"
-             class="img-fluid">
+             id="main-image">
 
         <p class="fixed-bottom text" :style="textColor">
           {{ text.bottom }}
         </p>
-      </div>
-
-      <div v-if="showGallery">
-        <meme-gallery :gallery="gallery" />
-
-          <button class="btn btn-outline-danger mt-2"
-                  @click="updateShowGallery(false)">
-            Close Meme Templates
-          </button>
-      </div>
-      <div v-else>
-        <button class="btn btn-outline-primary mt-2"
-                @click="updateShowGallery(true)">
-          View Meme Templates
-        </button>
       </div>
     </div>
 
@@ -47,19 +31,21 @@
       </div>
 
       <div class="form-group">
-        <label>Color text</label>
-        <input type="text"
-               :style="inputColorStyle"
-               class="form-control"
-               v-model="text.color">
+        <label>Text color</label><br>
+        <span v-for="(color, index) in colors" :key="index">
+          <span class="mr-2 border border-primary"
+                :style="colorStyle(color)"
+                @click="updateTextColor(color)"></span>
+        </span>
       </div>
 
       <div class="form-group">
-        <label>Text shadow</label>
-        <input type="text"
-               :style="inputShadowStyle"
-               class="form-control"
-               v-model="text.shadow">
+        <input
+          class="form-control-file"
+          accept="image/*"
+          type="file"
+          @change="previewImage($event)"
+        >
       </div>
 
       <div class="form-group">
@@ -82,89 +68,79 @@
 
 <script>
 
-import MemeGallery from './MemeGallery';
 import html2canvas from 'html2canvas';
 import FileSaver from 'file-saver';
 
 export default {
   name: 'MemeGenerator',
 
-  components: { MemeGallery },
-
   data() {
     return {
       title: 'Meme Generator',
       image: {
-        path: '',
-        title: '',
+        src: 'images/i-have-no-idea.png',
+        title: 'Dog',
       },
       text: {
         top: '',
         bottom: '',
-        color: '#fff',
-        shadow: '#000',
+        color: 'white',
         uppercase: true,
       },
-      gallery: [
-        { title: 'Dog', path: 'images/i-have-no-idea.png' },
-        { title: 'Skeleton', path: 'images/skeleton.png' },
-      ],
-      showGallery: true,
+      colors: ['red', 'black', 'white'],
     };
   },
 
   computed: {
     textColor() {
-      return {
-        color: this.text.color,
-        textTransform: this.text.uppercase ? 'uppercase' : 'lowercase',
-        textShadow: `3px 3px 3px ${this.text.shadow}`
-      };
+      const uppercase = this.text.uppercase ? 'uppercase' : 'lowercase';
+      return { color: this.text.color, textTransform: uppercase };
     },
-
-    inputColorStyle() {
-      return { border: `1px solid ${this.text.color}` };
-    },
-
-    inputShadowStyle() {
-      return { border: `1px solid ${this.text.shadow}` };
-    },
-  },
-
-  mounted() {
-    this.setImage();
-    this.onUpdateImage();
   },
 
   methods: {
-    setImage() {
-      this.updateImage(this.gallery[0]);
-    },
-
-    onUpdateImage() {
-      this.$root.$on('update-image', (image) => {
-        this.updateImage(image);
-      });
+    colorStyle(color) {
+      return {
+        width: '20px',
+        height: '20px',
+        borderRadius: '50%',
+        display: 'inline-block',
+        background: color,
+        cursor: 'pointer'
+      };
     },
 
     resetInputs() {
       this.text.top = '';
       this.text.bottom = '';
-      this.text.color = '#fff';
-      this.text.shadow = '#000';
+      this.text.color = 'white';
     },
 
     updateImage(image) {
-      this.image.path = image.path;
+      this.image.src = image.src;
       this.image.title = image.title;
     },
 
-    updateShowGallery(value) {
-      this.showGallery = value;
+    updateTextColor(color) {
+      this.text.color = color;
+    },
+
+    previewImage(event) {
+      let input = event.target;
+
+      if (input.files && input.files[0]) {
+        let render = new FileReader();
+
+        render.onload = (e) => {
+          this.image.src = e.target.result;
+        };
+
+        render.readAsDataURL(input.files[0]);
+      }
     },
 
     printImageToCanvas() {
-      return html2canvas(document.querySelector('#capture'));
+      return html2canvas(document.querySelector('#main-content'));
     },
 
     toggleTextUppercase() {
@@ -183,25 +159,24 @@ export default {
 
 <style scoped>
 
-.main-content {
-  width: 500px;
-  height: 500px;
+#main-content {
   word-wrap: break-word;
 }
 
 #main-image {
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
 .text {
   color: #fff;
   font-family: 'Passion One';
-  font-size: 40px;
-  line-height: 40px;
+  font-size: 4.5vw;
+  line-height: 3.8vw;
   padding: 5px;
   position: absolute;
   text-transform: uppercase;
+  text-shadow: 3px 3px 3px #000;
 }
 
 </style>
