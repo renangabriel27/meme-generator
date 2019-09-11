@@ -18,7 +18,7 @@
     </div>
 
     <div class="col-md-6">
-      <h1 class="text-center">
+      <h1 v-if="showTitle" class="text-center">
         <small>{{ title }}</small>
       </h1>
 
@@ -102,6 +102,7 @@ export default {
         uppercase: true,
       },
       colors: ['red', 'black', 'white'],
+      showTitle: false,
     };
   },
 
