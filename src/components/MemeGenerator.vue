@@ -18,22 +18,43 @@
     </div>
 
     <div class="col-md-6">
-      <h1 class="text-center">{{ title }}</h1>
+      <h1 class="text-center">
+        <small>{{ title }}</small>
+      </h1>
 
       <div class="form-group">
-        <label>Top text</label>
-        <input type="text" class="form-control" v-model="text.top">
+        <input
+          type="text"
+          placeholder="Top text"
+          class="form-control"
+          v-model="text.top"
+        >
       </div>
 
       <div class="form-group">
-        <label>Bottom text</label>
-        <input type="text" class="form-control" v-model="text.bottom">
+        <input
+          type="text"
+          placeholder="Bottom text"
+          class="form-control"
+          v-model="text.bottom"
+        >
       </div>
 
       <div class="form-group">
-        <label>Text color</label><br>
+        <div class="custom-control custom-checkbox" @click="toggleTextUppercase()">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            :checked="text.uppercase"
+          >
+          <label class="custom-control-label">UPPERCASE</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>TEXT COLOR</label>
         <span v-for="(color, index) in colors" :key="index">
-          <span class="mr-2 border border-primary"
+          <span class="ml-2 border border-primary"
                 :style="colorStyle(color)"
                 @click="updateTextColor(color)"></span>
         </span>
@@ -46,13 +67,6 @@
           type="file"
           @change="previewImage($event)"
         >
-      </div>
-
-      <div class="form-group">
-        <div class="custom-control custom-checkbox" @click="toggleTextUppercase()">
-          <input type="checkbox" class="custom-control-input" :checked="text.uppercase">
-          <label class="custom-control-label">UPPERCASE</label>
-        </div>
       </div>
 
       <button class="btn btn-outline-primary" @click="resetInputs()">
@@ -101,8 +115,8 @@ export default {
   methods: {
     colorStyle(color) {
       return {
-        width: '20px',
-        height: '20px',
+        width: '16px',
+        height: '16px',
         borderRadius: '50%',
         display: 'inline-block',
         background: color,
