@@ -181,6 +181,7 @@ export default {
 #main-image {
   width: 100%;
   height: auto;
+  max-height: 800px;
 }
 
 .text {
